@@ -1,12 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { Text, View, StyleSheet, FlatList, RefreshControl, Image, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 
 type CurrencyData = {
@@ -26,9 +18,7 @@ type CurrencyData = {
 type CurrencyDataRecord = Record<string, CurrencyData>;
 
 const App = () => {
-  const [currencyData, setCurrencyData] = useState<CurrencyDataRecord | null>(
-    null
-  );
+  const [currencyData, setCurrencyData] = useState<CurrencyDataRecord | null>(null);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -50,9 +40,7 @@ const App = () => {
 
   const fetchCurrencyData = async () => {
     try {
-      const response = await fetch(
-        "https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL,GBP-BRL,JPY-BRL,AUD-BRL,CAD-BRL,CHF-BRL,CNY-BRL,INR-BRL,NZD-BRL,SEK-BRL,SGD-BRL"
-      );
+      const response = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL,GBP-BRL,JPY-BRL,AUD-BRL,CAD-BRL,CHF-BRL,CNY-BRL,INR-BRL,NZD-BRL,SEK-BRL,SGD-BRL");
       const data = await response.json();
       setCurrencyData(data);
       setRefreshing(false);
@@ -78,9 +66,7 @@ const App = () => {
   const renderCurrencyItem = ({ item }: { item: CurrencyData }) => {
     item.name = item.name.replace("/Real Brasileiro", "");
 
-    const flag = (flagImages as Record<string, CurrencyDataRecord | undefined>)[
-      item.code
-    ];
+    const flag = (flagImages as Record<string, CurrencyDataRecord | undefined>)[item.code];
 
     return (
       <View style={styles.item}>
@@ -126,13 +112,7 @@ const App = () => {
           data={Object.values(currencyData)}
           renderItem={renderCurrencyItem}
           keyExtractor={(item) => item.code}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor="black"
-            />
-          }
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="black" />}
         />
       ) : (
         <ActivityIndicator size="large" color="#000000" />
